@@ -34,3 +34,25 @@ SDK/configs/network-config-tls.yaml
 + 组织Admin私钥和证书
 
 5. 调用合约mycc invoke/query方法
+
+
+```java
+    System.out.println( "=== Fabric Demo Start ===" );
+    String channelName="mychannel";
+    String filePath="/Users/eggsy/java/src/javasdkdemo/src/main/java/SDK/configs/network-config-tls.yaml";
+    ChaincodeService service=new ChaincodeService(channelName,filePath);
+    String chaincodeName="mycc";
+    // 调用mycc的查询方法，查询a的值
+    String fcn="query";
+    String[] arguments = new String[]{"a"};
+    service.query(chaincodeName,fcn,arguments);
+    // 调用mycc的invoke方法，a转给b200
+    fcn="invoke";
+    arguments = new String[]{"a","b","200"};
+    service.invoke(chaincodeName,fcn,arguments);
+    // 调用mycc的查询方法，查询转账后a的值
+    fcn="query";
+    arguments = new String[]{"a"};
+    service.query(chaincodeName,fcn,arguments);
+    System.out.println( "=== Fabric Demo End ===" );
+```
