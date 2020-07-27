@@ -114,11 +114,11 @@ organizations:
       - peer1.org1.example.com
 
     adminPrivateKey:
-      path: /Users/eggsy/go/src/github.com/hyperledger/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/43a8c90be186b17105b5164ef51f965196abbe53cec5fd75184528faf282bf9e_sk
+      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/2b75dc38efbf4a27f37a38c9931ca0df48824e3afe7b08298c4bd0a279db3804_sk
 
 
     signedCert:
-      path: /Users/eggsy/go/src/github.com/hyperledger/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
 
 
 #
@@ -128,7 +128,7 @@ organizations:
 #
 orderers:
   orderer.example.com:
-    url: grpcs://localhost:7050
+    url: grpcs://192.168.9.96:7050
 
     # these are standard properties defined by the gRPC library
     # they will be passed in as-is to gRPC client constructor
@@ -140,7 +140,7 @@ orderers:
       grpc.keepalive_timeout_ms: 180000
 
     tlsCACerts:
-      path: /Users/eggsy/go/src/github.com/hyperledger/fabric/fabric-samples/first-network/crypto-config/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
+      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
 
 
 
@@ -151,7 +151,7 @@ orderers:
 peers:
   peer0.org1.example.com:
     # this URL is used to send endorsement and query requests
-    url: grpcs://localhost:7051
+    url: grpcs://192.168.9.96:7051
 
     grpcOptions:
       ssl-target-name-override: peer0.org1.example.com
@@ -159,12 +159,12 @@ peers:
       hostnameOverride: peer0.org1.example.com
 
     tlsCACerts:
-      path: /Users/eggsy/go/src/github.com/hyperledger/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
 
 
   peer1.org1.example.com:
     # this URL is used to send endorsement and query requests
-    url: grpcs://localhost:8051
+    url: grpcs://192.168.9.96:8051
 
     grpcOptions:
       ssl-target-name-override: peer1.org1.example.com
@@ -172,4 +172,4 @@ peers:
       hostnameOverride: peer1.org1.example.com
 
     tlsCACerts:
-      path: /Users/eggsy/go/src/github.com/hyperledger/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
