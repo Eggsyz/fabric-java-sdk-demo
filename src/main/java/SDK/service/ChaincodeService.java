@@ -5,6 +5,9 @@ import org.hyperledger.fabric.sdk.security.CryptoSuite;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -29,29 +32,36 @@ public class ChaincodeService {
                 this.channel=this.hfClient.loadChannelFromConfig(channelId,config);
                 // 通道初始化
                 this.channel.initialize();
+
             }catch (Exception e){
                 e.printStackTrace();
             }
     }
 
+    public void event() {
+        // 监听事件
+        try{
+        String chaincodeEventListenerHandle = channel.registerChaincodeEventListener(Pattern.compile(".*"),
+                Pattern.compile(".*"),
+                (handle, blockEvent, chaincodeEvent) -> {
+                    String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
+                    System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
+                                    + "transaction id: %s, event payload: \"%s\", from eventhub: %s",
+                            handle, chaincodeEvent.getChaincodeId(),
+                            chaincodeEvent.getEventName(),
+                            chaincodeEvent.getTxId(),
+                            new String(chaincodeEvent.getPayload()),
+                            es);
+                });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-    // 调用该通道链码invoke方法, 并打印交易id以及交易是否有效
+        // 调用该通道链码invoke方法, 并打印交易id以及交易是否有效
     public void invoke( String chainCodeName, String funcName,String... args){
         try {
-            // 监听事件
-            String chaincodeEventListenerHandle = channel.registerChaincodeEventListener(Pattern.compile(".*"),
-                    Pattern.compile(Pattern.quote("event")),
-                    (handle, blockEvent, chaincodeEvent) -> {
-                        String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
-                        System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
-                                        + "transaction id: %s, event payload: \"%s\", from eventhub: %s",
-                                handle, chaincodeEvent.getChaincodeId(),
-                                chaincodeEvent.getEventName(),
-                                chaincodeEvent.getTxId(),
-                                new String(chaincodeEvent.getPayload()),
-                                es);
 
-                    });
             // 初始化invoke请求
             TransactionProposalRequest request = this.hfClient.newTransactionProposalRequest();
             ChaincodeID chaincodeID=ChaincodeID.newBuilder().setName(chainCodeName).build();
@@ -59,9 +69,10 @@ public class ChaincodeService {
             request.setChaincodeID(chaincodeID);
             request.setFcn(funcName);
             request.setArgs(args);
-            // 这里需要实现如何选择背书节点
-            // this.channel.setSDEndorserSelector()
-            // 发送交易提案,可能会遇到交易提案失败的情况，需要进行处理，将失败的背书响应给去掉
+
+//            Collection<Peer> peers = channel.getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER));
+//            System.out.println(peers);
+//            Collection<ProposalResponse> responses = this.channel.sendTransactionProposal(request,peers);
             Collection<ProposalResponse> responses = this.channel.sendTransactionProposal(request);
             // 发送交易
             BlockEvent.TransactionEvent event = this.channel.sendTransaction(responses).get();
