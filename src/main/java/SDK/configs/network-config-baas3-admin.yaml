@@ -109,7 +109,7 @@ organizations:
       - peer-0-baas3
 
     adminPrivateKey:
-      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/baas3/admin/7420b7df2f8e0b941843d2ebb3ba6643ff2ed3818d073724a8179ba3d38f1520_sk
+      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/baas3/admin/d17e82375288d5522ce4919474d9017ad7fde314216cabc33b2c3d99ef2267fd_sk
 
     signedCert:
       path: /Users/eggsy/java/src/javasdkdemo/crypto-config/baas3/admin/20000000001@baas3-cert.pem
@@ -121,7 +121,7 @@ organizations:
 #
 orderers:
   orderer-0-baas3:
-    url: grpcs://192.168.9.44:32020
+    url: grpcs://47.114.57.64:30024
 
     # these are standard properties defined by the gRPC library
     # they will be passed in as-is to gRPC client constructor
@@ -142,7 +142,7 @@ orderers:
 peers:
   peer-0-baas1:
     # this URL is used to send endorsement and query requests
-    url: grpcs://192.168.9.44:30031
+    url: grpcs://47.114.57.64:30031
 
     grpcOptions:
       ssl-target-name-override: peer-0-baas1
@@ -154,7 +154,7 @@ peers:
 
   peer-1-baas1:
     # this URL is used to send endorsement and query requests
-    url: grpcs://192.168.9.44:30033
+    url: grpcs://47.114.57.64:30033
 
     grpcOptions:
       ssl-target-name-override: peer-1-baas1
@@ -166,7 +166,7 @@ peers:
 
   peer-0-baas3:
     # this URL is used to send endorsement and query requests
-    url: grpcs://192.168.9.44:32031
+    url: grpcs://47.114.57.64:30061
 
     grpcOptions:
       ssl-target-name-override: peer-0-baas3
@@ -178,7 +178,7 @@ peers:
 
   peer-1-baas3:
     # this URL is used to send endorsement and query requests
-    url: grpcs://192.168.9.44:32033
+    url: grpcs://47.114.57.64:30063
 
     grpcOptions:
       ssl-target-name-override: peer-1-baas3
@@ -187,28 +187,3 @@ peers:
 
     tlsCACerts:
       path: /Users/eggsy/java/src/javasdkdemo/crypto-config/baas3/baas3-cert.pem
-
-#  peer0.org3.example.com:
-#    # this URL is used to send endorsement and query requests
-#    url: grpcs://192.168.9.166:11051
-#
-#    grpcOptions:
-#      ssl-target-name-override: peer0.org3.example.com
-#      grpc.http2.keepalive_time: 15
-#      hostnameOverride: peer0.org3.example.com
-#
-#    tlsCACerts:
-#      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
-#
-#
-#  peer1.org3.example.com:
-#    # this URL is used to send endorsement and query requests
-#    url: grpcs://192.168.9.166:12051
-#
-#    grpcOptions:
-#      ssl-target-name-override: peer1.org3.example.com
-#      grpc.http2.keepalive_time: 15
-#      hostnameOverride: peer1.org3.example.com
-#
-#    tlsCACerts:
-#      path: /Users/eggsy/java/src/javasdkdemo/crypto-config/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem

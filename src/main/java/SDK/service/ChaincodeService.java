@@ -41,18 +41,84 @@ public class ChaincodeService {
     public void event() {
         // 监听事件
         try{
-        String chaincodeEventListenerHandle = channel.registerChaincodeEventListener(Pattern.compile(".*"),
-                Pattern.compile(".*"),
+            //监听待支付事件
+            channel.registerChaincodeEventListener(Pattern.compile("ccbcc3"),
+                Pattern.compile("PendingPaidEvent"),
                 (handle, blockEvent, chaincodeEvent) -> {
                     String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
                     System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
-                                    + "transaction id: %s, event payload: \"%s\", from eventhub: %s",
+                                    + "transaction id: %s, event payload: \"%s\", from eventhub: %s \n",
                             handle, chaincodeEvent.getChaincodeId(),
                             chaincodeEvent.getEventName(),
                             chaincodeEvent.getTxId(),
                             new String(chaincodeEvent.getPayload()),
                             es);
                 });
+            // 监听已支付事件
+            channel.registerChaincodeEventListener(Pattern.compile("ccbcc3"),
+                    Pattern.compile("PaidEvent"),
+                    (handle, blockEvent, chaincodeEvent) -> {
+                        String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
+                        System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
+                                        + "transaction id: %s, event payload: \"%s\", from eventhub: %s \n",
+                                handle, chaincodeEvent.getChaincodeId(),
+                                chaincodeEvent.getEventName(),
+                                chaincodeEvent.getTxId(),
+                                new String(chaincodeEvent.getPayload()),
+                                es);
+                    });
+            // 监听待兑回事件
+            channel.registerChaincodeEventListener(Pattern.compile("ccbcc3"),
+                    Pattern.compile("PendingRedeemedEvent"),
+                    (handle, blockEvent, chaincodeEvent) -> {
+                        String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
+                        System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
+                                        + "transaction id: %s, event payload: \"%s\", from eventhub: %s \n",
+                                handle, chaincodeEvent.getChaincodeId(),
+                                chaincodeEvent.getEventName(),
+                                chaincodeEvent.getTxId(),
+                                new String(chaincodeEvent.getPayload()),
+                                es);
+                    });
+            // 监听已兑回事件
+            channel.registerChaincodeEventListener(Pattern.compile("ccbcc3"),
+                    Pattern.compile("RedeemedEvent"),
+                    (handle, blockEvent, chaincodeEvent) -> {
+                        String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
+                        System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
+                                        + "transaction id: %s, event payload: \"%s\", from eventhub: %s \n",
+                                handle, chaincodeEvent.getChaincodeId(),
+                                chaincodeEvent.getEventName(),
+                                chaincodeEvent.getTxId(),
+                                new String(chaincodeEvent.getPayload()),
+                                es);
+                    });
+            // 监听待退款事件
+            channel.registerChaincodeEventListener(Pattern.compile("ccbcc3"),
+                    Pattern.compile("PendingRefundEvent"),
+                    (handle, blockEvent, chaincodeEvent) -> {
+                        String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
+                        System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
+                                        + "transaction id: %s, event payload: \"%s\", from eventhub: %s \n",
+                                handle, chaincodeEvent.getChaincodeId(),
+                                chaincodeEvent.getEventName(),
+                                chaincodeEvent.getTxId(),
+                                new String(chaincodeEvent.getPayload()),
+                                es);
+                    });
+            // 监听已退款事件
+            channel.registerChaincodeEventListener(Pattern.compile("ccbcc3"),
+                    Pattern.compile("RefundEvent"),
+                    (handle, blockEvent, chaincodeEvent) -> {
+                        String es = blockEvent.getPeer() != null ? blockEvent.getPeer().getName() : blockEvent.getEventHub().getName();
+                        System.out.printf("RECEIVED Chaincode event with handle: %s, chaincode Id: %s, chaincode event name: %s, "
+                                        + "transaction id: %s, event payload: \"%s\", from eventhub: %s \n",
+                                handle, chaincodeEvent.getChaincodeId(),
+                                chaincodeEvent.getEventName(),
+                                chaincodeEvent.getTxId(),
+                                new String(chaincodeEvent.getPayload()),
+                                es);
+                    });
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -70,9 +136,8 @@ public class ChaincodeService {
             request.setFcn(funcName);
             request.setArgs(args);
 
-//            Collection<Peer> peers = channel.getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER));
-//            System.out.println(peers);
-//            Collection<ProposalResponse> responses = this.channel.sendTransactionProposal(request,peers);
+            Collection<Peer> peers = channel.getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER));
+            System.out.println(peers);
             Collection<ProposalResponse> responses = this.channel.sendTransactionProposal(request);
             // 发送交易
             BlockEvent.TransactionEvent event = this.channel.sendTransaction(responses).get();
